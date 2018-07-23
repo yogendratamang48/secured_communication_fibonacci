@@ -50,6 +50,44 @@ def getKeys(securityCode, messageLength):
 
     return keys
 
+def getEncodedDecimals(keys, messages):
+    '''
+    returns encoded decimals from keys and message pairs
+    '''
+    encodedDecimals = []
+    for key, message in zip(keys, messages):
+        key_ord = ord(key)
+        message_ord = ord(message)
+        decimal = 3*key_ord+message_ord
+        encodedDecimals.append(decimal)
+    return encodedDecimals
+
+def getDecodedMessage(securityKey, encodedDecimals):
+    '''
+    returns decoded message from security key and encoded decimals
+    1. get keys
+    2. get ascii_values of keys
+    3. get decoded decimals = encodedDecimal-3*ord_key
+    4. get character from decoded decimal
+    '''
+    message_length = len(encodedDecimals)
+    # 1. get keys
+    keys = getKeys(securityKey, message_length)
+
+    # 2. get ascii_values of keys
+    ord_keys = [ord(key) for key in keys]
+
+    # 3. get decoded decimals = encodedDecimal-3*ord_key
+
+    decodedDecimals = [0]*message_length
+    for i in range(message_length):
+        decodedDecimals[i] = encodedDecimals[i] - 3*ord_keys[i]
+
+    # 4. get character from decoded decimal
+    decodedCharacters = [chr(decimal) for decimal in decodedDecimals]
+    decodedMessage = ''.join(decodedCharacters)
+
+    return decodedMessage
 
 def getAsciiLetters():
     '''
@@ -66,7 +104,18 @@ if __name__=='__main__':
     if len(rawSecurityCode)==1 and rawSecurityCode[0] in asciiLetters:
         print("Security Code: {}".format(rawSecurityCode))
         keys = getKeys(rawSecurityCode, len(message))
+        messages = list(message)
+        print("Keys: ")
         print(keys)
+
+        encodedDecimals = getEncodedDecimals(keys, messages)
+        print("Encoded Decimals: ")
+        print(encodedDecimals)
+
+        print("Decoding...")
+        decoded_message = getDecodedMessage(rawSecurityCode, encodedDecimals)
+        print(decoded_message)
+
 
     else:
         print("Wrong Character for code")
