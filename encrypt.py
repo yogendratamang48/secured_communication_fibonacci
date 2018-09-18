@@ -121,9 +121,11 @@ def start(message, rawSecurityCode):
             json.dump(hexes, write_file)
 
         print("===============Encoding Complete=================\n")
+        return True
 
     else:
         print("Wrong Character for code")
+        return False
 
 if __name__=='__main__':
     message=input("Enter your text: ")
