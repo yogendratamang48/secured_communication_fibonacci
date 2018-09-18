@@ -1,5 +1,6 @@
 from tkinter import *
 import decrypt
+import encrypt
 
 class Window(Frame):
     def __init__(self, master=None):
@@ -34,11 +35,19 @@ class Window(Frame):
         e2 = Entry(self)
         e2.pack()
         b = Button(self, text="Encrypt", command=self.data_encrypt)
+        encrypt.start(e.get(), e2.get())
         b.pack()
 
+
     def data_encrypt(self):
-        pass
+        text = Label(self, text="Encryption Complete")
+        text.pack()
+        print("Encryption Complet!!")
+    
     def data_decrypt(self):
+        message = decrypt.start_decript(e3.get())
+        text2 = Label(self, text=message)
+        text2.pack()
         pass
 
 
@@ -46,8 +55,8 @@ class Window(Frame):
     def callback_decrypt(self):
         lblKey = Label(self, text="Input Key")
         lblKey.pack()
-        e = Entry(self)
-        e.pack()
+        e3 = Entry(self)
+        e3.pack()
         b = Button(self, text="Decrypt", command=self.data_decrypt)
         b.pack()
         
