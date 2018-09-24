@@ -1,6 +1,8 @@
 from tkinter import *
 import decrypt
 import encrypt
+import string
+import random
 
 class Window(Frame):
     def __init__(self, master=None):
@@ -30,21 +32,21 @@ class Window(Frame):
         lblMessage.pack()
         self.e = Entry(self)
         self.e.pack()
-        lblKey = Label(self, text="Input Key")
-        lblKey.pack()
-        self.e2 = Entry(self)
-        self.e2.pack()
         b = Button(self, text="Encrypt", command=self.data_encrypt)
         b.pack()
 
 
     def data_encrypt(self):
-        _result = encrypt.start(self.e.get(), self.e2.get())
+        '''
+        '''
+        _key = random.choice(string.ascii_lowercase)
+        _result = encrypt.start(self.e.get(), _key)
         if _result:
             text = Label(self, text="Encryption Complete")
         else:
             text = Label(self, text="Wrong Character")
         text.pack()
+        print("Random Key: %s" % _key)
         print("Encryption Complet!!")
         quit()
     
